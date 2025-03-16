@@ -12,14 +12,22 @@ kubectl create secret generic smbcreds --from-literal username=USERNAME --from-l
 
 # storage class 생성
 ```
-kubectl create -f smb_storage_class.yaml
+kubectl create -f https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/deploy/example/storageclass-smb.yaml
 ```
 
 # 설치 후 확인
 ```
 kubectl -n kube-system get pod -o wide --watch -l app=csi-smb-controller
 kubectl -n kube-system get pod -o wide --watch -l app=csi-smb-node
+kubectl apply -f smb-pv.yaml
+kubectl apply -f smb-pvc.yaml
+kubectl apply -f deployment.yaml
+
 ```
 
 # 설치 시 주의 사항
-- source 값에는 \\SMB서버주소\디렉토리 경로값으로 지정해줘야함
+- PV의 해당 옵션을 다음과 같이 넣어줘야함
+```
+    volumeAttributes:
+      source: "//192.168.0.1/mysmb" # //SMB서버/디렉토리
+```
