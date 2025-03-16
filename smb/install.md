@@ -38,3 +38,5 @@ kubectl delete -f deployment.yaml
 kubectl delete -f smb-pvc.yaml
 kubectl delete -f smb-pv.yaml
 ```
+
+[출처](https://www.youtube.com/watch?v=3S5oeB2qhyg)
