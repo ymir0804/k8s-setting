@@ -7,12 +7,15 @@ sudo apt update && sudo apt install nfs-common -y
 
 ## NFS Client Provisioner 설치
 ```
+kubectl create namespace nfs-client
 helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
-
-helm install --kubeconfig=$KUBE_CONFIG  nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
-
+helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
+--namespace nfs-client \
 --set nfs.server=__NAS_IP__ \
---set nfs.path=__NAS_PATH__
+--set nfs.path=__NAS_PATH__ \
+--set storageClass.name=nfs-client \
+--set storageClass.defaultClass=true
+# 나의 설정은 __NAS_IP__ 192.168.0.x, __NAS_PATH__ /nfs
 ```
 
 ## 설치 확인
